@@ -87,6 +87,7 @@ func scanint(c rune) int {
 			}
 		}
 	}
+	putback(c)
 	return val
 }
 
