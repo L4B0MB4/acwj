@@ -30,7 +30,7 @@ func main() {
 	initVariables()
 	openFile(os.Args[1])
 	scan(&T)
-	n := binExpr(0)
+	n := *binExpr(0)
 	printAstDepth(n)
 	interpretAST(&n)
 }

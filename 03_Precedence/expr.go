@@ -31,8 +31,8 @@ func getAstType(tok int) int {
 	return -1
 }
 
-func primary() AstNode {
-	var n AstNode
+func primary() *AstNode {
+	var n *AstNode
 
 	switch T.token {
 	case T_INTLIT:
@@ -46,8 +46,8 @@ func primary() AstNode {
 	return n
 }
 
-func binExpr(tokenPrecedence int) AstNode {
-	var left, right AstNode
+func binExpr(tokenPrecedence int) *AstNode {
+	var left, right *AstNode
 	var tokenType int
 
 	//Get interger literal left
@@ -60,7 +60,7 @@ func binExpr(tokenPrecedence int) AstNode {
 	// While the precedence of this token is
 	// more than that of the previous token precedence
 	for opPrecedence(tokenType) > tokenPrecedence {
-		//next token
+		//next integer token -> current one cant be integer
 		scan(&T)
 
 		//get the right node - recursively
@@ -68,7 +68,7 @@ func binExpr(tokenPrecedence int) AstNode {
 
 		// Join that sub-tree with ours. Convert the token
 		// into an AST operation at the same time.
-		left = makeAstNode(getAstType(tokenType), &left, &right, 0)
+		left = makeAstNode(getAstType(tokenType), left, right, 0)
 
 		// Update the details of the current token.
 		// If no tokens left, return just the left node
