@@ -29,11 +29,12 @@ func cleanup() {
 	}
 }
 
-func compileFile(path string) {
-	log.Printf(path)
-	cmd := exec.Command("go", "build", "-o", "build.exe", path)
+func compileFile(path, tmpPath string) {
+	OutputFile.Flush()
+	cmd := exec.Command("go", "build", "-o", path, tmpPath)
 	log.Printf("Compiling...")
-	err := cmd.Run()
+	output, err := cmd.Output()
+	log.Printf(string(output))
 	if err != nil {
 		log.Printf("Compiling finished with error: %v", err)
 	}
@@ -50,12 +51,12 @@ func main() {
 	}
 	initVariables()
 	openInputFile(os.Args[1])
-	openOutputFile(os.Args[2])
+	openOutputFile("./bin/tmp.go")
 	scan(&T)
 	n := *binExpr(0)
 	printAstDepth(n)
 	genMainFuncStart()
 	interpretAST(&n)
 	genMainFuncEnd()
-	compileFile(os.Args[2])
+	compileFile(os.Args[2], "./bin/tmp.go")
 }
