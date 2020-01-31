@@ -5,12 +5,15 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
+	"strconv"
 )
 
 var VariableCounter = 0
 
-func openOutputFile(fileName string) {
-	file, err := os.Create(fileName) // For read access.
+func openOutputFile(path string) {
+	os.MkdirAll(filepath.Dir(path), os.ModePerm)
+	file, err := os.Create(path) // For read access.
 	if err != nil {
 		log.Fatal(err)
 		panic(err)
@@ -19,23 +22,44 @@ func openOutputFile(fileName string) {
 	OutputFile = bufio.NewWriter(file)
 }
 
-func generateVariable() string {
-	variableName:=""
-	numberChars := int(VariableCounter / 26)
-	for i:=0;i<numberChars;i++{
-		variableName+=
-	}
+func genMainFuncStart() {
+	fmt.Fprintf(OutputFile, "package main \n\nfunc main(){\n")
 }
 
-func genAdd(left, right AstNode) {
-	fmt.Fprintf(OutputFile, "(%v + %v) ", left.intval, right.intval)
+func genMainFuncEnd() {
+	fmt.Fprintf(OutputFile, "print(\"%%d\",%s)\n}", getLastGenVariable())
 }
-func genSub(left, right AstNode) {
-	fmt.Fprintf(OutputFile, "(%v - %v) ", left.intval, right.intval)
+
+func getLastGenVariable() string {
+	return "v" + strconv.Itoa(VariableCounter)
 }
-func genMul(left, right AstNode) {
-	fmt.Fprintf(OutputFile, "(%v * %v) ", left.intval, right.intval)
+
+func generateVariable() string {
+	VariableCounter++
+	return getLastGenVariable()
 }
-func genDiv(left, right AstNode) {
-	fmt.Fprintf(OutputFile, "(%v / %v) ", left.intval, right.intval)
+
+func genMathExpression(operator string, left, right string) string {
+	variableName := generateVariable()
+	fmt.Fprintf(OutputFile, "%s := (%v %s %v)\n", variableName, left, operator, right)
+	return variableName
+}
+
+func genAdd(left, right string) string {
+	return genMathExpression("+", left, right)
+}
+func genSub(left, right string) string {
+	return genMathExpression("-", left, right)
+}
+func genMul(left, right string) string {
+	return genMathExpression("*", left, right)
+}
+func genDiv(left, right string) string {
+	return genMathExpression("/", left, right)
+}
+
+func genNumber(node *AstNode) string {
+	variableName := generateVariable()
+	fmt.Fprintf(OutputFile, "%s := %s\n", variableName, strconv.Itoa(node.intval))
+	return variableName
 }

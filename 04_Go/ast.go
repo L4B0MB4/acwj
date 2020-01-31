@@ -2,6 +2,7 @@ package main
 
 import "fmt"
 
+//Ast ops
 const (
 	A_ADD = iota
 	A_SUBTRACT
@@ -11,10 +12,11 @@ const (
 )
 
 type AstNode struct {
-	left   *AstNode
-	right  *AstNode
-	op     int
-	intval int
+	left      *AstNode
+	right     *AstNode
+	op        int
+	intval    int
+	stringval string
 }
 
 func makeAstNode(op int, left *AstNode, right *AstNode, intval int) *AstNode {
