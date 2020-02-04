@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -21,12 +20,6 @@ func interpretAST(n *AstNode) string {
 		rightval = interpretAST(n.right)
 	}
 
-	// Debug: Print what we are about to do
-	if n.op == A_INTLIT {
-		fmt.Printf("int %d\n", n.intval)
-	} else {
-		fmt.Printf("%s %s %s\n", leftval, AstOps[n.op], rightval)
-	}
 	switch n.op {
 	case A_ADD:
 		return genAdd(leftval, rightval)
@@ -38,6 +31,12 @@ func interpretAST(n *AstNode) string {
 		return genDiv(leftval, rightval)
 	case A_INTLIT:
 		return genNumber(n)
+	case A_IDENT:
+		return rightval
+	case A_ASSIGNVAL:
+		return rightval
+	case A_ASSIGN:
+		return rightval
 	default:
 		log.Fatalf("Unknown AST operator %d\n", n.op)
 		panic("Unknown AST operator")

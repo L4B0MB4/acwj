@@ -2,29 +2,26 @@ package main
 
 import "fmt"
 
-//Ast ops
-const (
-	A_ADD = iota
-	A_SUBTRACT
-	A_MULTIPLY
-	A_DIVIDE
-	A_INTLIT
-)
-
 type AstNode struct {
-	left      *AstNode
-	right     *AstNode
-	op        int
-	intval    int
-	stringval string
+	left  *AstNode
+	right *AstNode
+	op    int
+	v     AstNodeValue
+}
+
+type AstNodeValue struct {
+	intval int
+	id     int
 }
 
 func makeAstNode(op int, left *AstNode, right *AstNode, intval int) *AstNode {
 	n := AstNode{
-		intval: intval,
-		left:   left,
-		right:  right,
-		op:     op,
+		v: AstNodeValue{
+			intval: intval,
+		},
+		left:  left,
+		right: right,
+		op:    op,
 	}
 	return &n
 }

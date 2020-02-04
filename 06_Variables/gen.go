@@ -64,6 +64,10 @@ func genDiv(left, right string) string {
 
 func genNumber(node *AstNode) string {
 	variableName := generateVariable()
-	fmt.Fprintf(OutputFile, "%s := %s\n", variableName, strconv.Itoa(node.intval))
+	fmt.Fprintf(OutputFile, "%s := %s\n", variableName, strconv.Itoa(node.v.intval))
 	return variableName
+}
+
+func genGlobalSymbol() {
+
 }

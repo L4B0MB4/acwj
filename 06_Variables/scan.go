@@ -78,6 +78,10 @@ func matchToken(t int, expected string) {
 	}
 }
 
+func matchIdent() {
+	matchToken(T_IDENT, "identifier")
+}
+
 func matchNewLine() {
 	matchToken(T_NEWLINE, "\\n")
 }
@@ -97,7 +101,8 @@ func scanIdent(c rune) string {
 		}
 	}
 	putback(c)
-	return identBuilder.String()
+	LastScannedIdentifier = identBuilder.String()
+	return LastScannedIdentifier
 }
 
 func scanint(c rune) int {
@@ -123,6 +128,11 @@ func getKeyword(ident string) int {
 	case 'p':
 		if ident == "print" {
 			return T_PRINT
+		}
+		break
+	case 'v':
+		if ident == "v" {
+			return T_VAR
 		}
 		break
 	}
@@ -151,6 +161,9 @@ func scan(t *Token) bool {
 	case '/':
 		t.token = T_SLASH
 		break
+	case '=':
+		t.token = T_EQ
+		break
 	default:
 		if unicode.IsDigit(c) {
 			t.intvalue = scanint(c)
@@ -162,6 +175,10 @@ func scan(t *Token) bool {
 			// If it's a recognised keyword, return that token
 			if tokentype > 0 {
 				t.token = tokentype
+				break
+			} else {
+				//if its not a keyword, it must be an identifier
+				t.token = T_IDENT
 				break
 			}
 			// Not a recognised keyword, so an error for now

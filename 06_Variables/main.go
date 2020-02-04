@@ -44,6 +44,12 @@ func compileFile(path, tmpPath string) {
 }
 
 func main() {
+
+	/*x := map[string]interface{}{"x": "5"}
+	y := map[string]string{"x": "5"}
+
+	meinTest(x, y)*/
+
 	generateVariable()
 	defer cleanup()
 	if len(os.Args) != 3 {
@@ -57,4 +63,9 @@ func main() {
 	parseStatements()
 	genMainFuncEnd()
 	compileFile(os.Args[2], "./bin/tmp.go")
+}
+
+func meinTest(x, y interface{}) {
+	print(x.(map[string]interface{})["x"].(string))
+	print(x.(map[string]interface{})["x"])
 }
