@@ -36,13 +36,20 @@ func primary() *AstNode {
 
 	switch T.token {
 	case T_INTLIT:
-		n = makeLeaf(A_INTLIT, T.intvalue)
-		scan(&T)
-		return n
+		n = makeLeaf(A_INTLIT, T.intvalue, -1)
+		break
+	case T_IDENT:
+		id, err := findGlobalSymbol(LastScannedIdentifier)
+		if err != nil {
+			log.Fatalf("Uknown variable %s. %v", LastScannedIdentifier, err)
+		}
+		n = makeLeaf(A_IDENT, -1, id)
+		break
 	default:
 		log.Fatalf("Syntax error on line %d column %d ", Line, Column)
 		os.Exit(4)
 	}
+	scan(&T)
 	return n
 }
 
@@ -69,7 +76,7 @@ func binExpr(tokenPrecedence int) *AstNode {
 
 		// Join that sub-tree with ours. Convert the token
 		// into an AST operation at the same time.
-		left = makeAstNode(getAstType(tokenType), left, right, 0)
+		left = makeAstNode(getAstType(tokenType), left, right, 0, -1)
 
 		// Update the details of the current token.
 		// If no tokens left, return just the left node

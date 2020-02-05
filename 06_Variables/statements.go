@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 )
@@ -30,6 +31,7 @@ func parseStatements() {
 		if T.token == T_EOF {
 			return
 		}
+		OutputFile.Flush()
 		matchNewLine()
 	}
 }
@@ -38,8 +40,7 @@ func printStatement() {
 	var n *AstNode
 	matchToken(T_PRINT, "print")
 	n = binExpr(0)
-	interpretAST(n)
-	genPrint()
+	genPrint(interpretAST(n))
 }
 
 func assignStatement() {
@@ -50,10 +51,11 @@ func assignStatement() {
 		log.Fatalf("Couldn't find global Symbol %s", LastScannedIdentifier)
 		os.Exit(7)
 	}
-	right = makeLeaf(A_ASSIGNVAL, id)
+	left = makeLeaf(A_ASSIGNVAL, -1, id)
 	matchToken(T_EQ, "=")
-	left = binExpr(0)
-	tree = makeAstNode(A_ASSIGN, left, right, 0)
-	interpretAST(tree)
+	right = binExpr(0)
+	tree = makeAstNode(A_ASSIGN, left, right, 0, -1)
+	fmt.Fprint(OutputFile, interpretAST(tree))
+	OutputFile.Flush()
 
 }

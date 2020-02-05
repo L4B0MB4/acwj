@@ -21,6 +21,9 @@ func getNextGlobalPosition() int {
 	return len(GlobalSymbols)
 }
 
+func findLastGlobalSymbol() int {
+	return len(GlobalSymbols) - 1
+}
 func addGlobalSymbol(name string) int {
 	GlobalSymbols = append(GlobalSymbols, SymTable{name: name})
 	return len(GlobalSymbols) - 1

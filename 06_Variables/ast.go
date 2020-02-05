@@ -14,10 +14,11 @@ type AstNodeValue struct {
 	id     int
 }
 
-func makeAstNode(op int, left *AstNode, right *AstNode, intval int) *AstNode {
+func makeAstNode(op int, left *AstNode, right *AstNode, intval, id int) *AstNode {
 	n := AstNode{
 		v: AstNodeValue{
 			intval: intval,
+			id:     id,
 		},
 		left:  left,
 		right: right,
@@ -26,12 +27,12 @@ func makeAstNode(op int, left *AstNode, right *AstNode, intval int) *AstNode {
 	return &n
 }
 
-func makeLeaf(op int, intval int) *AstNode {
-	return makeAstNode(op, nil, nil, intval)
+func makeLeaf(op int, intval, id int) *AstNode {
+	return makeAstNode(op, nil, nil, intval, id)
 }
 
-func mkastunary(op int, left *AstNode, intval int) *AstNode {
-	return makeAstNode(op, left, nil, intval)
+func mkastunary(op int, left *AstNode, intval, id int) *AstNode {
+	return makeAstNode(op, left, nil, intval, id)
 }
 
 func printAstDepth(n *AstNode) {

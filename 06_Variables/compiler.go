@@ -32,11 +32,11 @@ func interpretAST(n *AstNode) string {
 	case A_INTLIT:
 		return genNumber(n)
 	case A_IDENT:
-		return rightval
+		return genIdent(n)
 	case A_ASSIGNVAL:
-		return rightval
+		return genAssignVal(n)
 	case A_ASSIGN:
-		return rightval
+		return genAssign(leftval, rightval)
 	default:
 		log.Fatalf("Unknown AST operator %d\n", n.op)
 		panic("Unknown AST operator")
