@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func varDeclerationStatement() {
 	matchToken(T_VAR, "v")
 	matchIdent()
@@ -12,6 +14,6 @@ func varDeclerationStatement() {
 		left = makeLeaf(A_ASSIGNVAL, -1, id)
 		right = binExpr(0)
 		tree = makeAstNode(A_ASSIGN, left, right, 0, -1)
-		interpretAST(tree)
+		fmt.Fprint(OutputFile, interpretAST(tree))
 	}
 }
