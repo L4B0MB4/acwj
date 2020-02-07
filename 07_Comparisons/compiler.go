@@ -29,6 +29,18 @@ func interpretAST(n *AstNode) string {
 		return genMul(leftval, rightval)
 	case A_DIVIDE:
 		return genDiv(leftval, rightval)
+	case A_EQ:
+		return genEq(leftval, rightval)
+	case A_NEQ:
+		return genNeq(leftval, rightval)
+	case A_GT:
+		return genGt(leftval, rightval)
+	case A_GE:
+		return genGe(leftval, rightval)
+	case A_LT:
+		return genLt(leftval, rightval)
+	case A_LE:
+		return genLe(leftval, rightval)
 	case A_INTLIT:
 		return genNumber(n)
 	case A_IDENT:

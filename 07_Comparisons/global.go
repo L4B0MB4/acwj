@@ -46,7 +46,8 @@ const (
 
 //Ast ops
 const (
-	A_ADD = iota
+	A_EOF_PLACEHOLDER = iota //used to T_TOKEN == A_OP in getAstType
+	A_ADD
 	A_SUBTRACT
 	A_MULTIPLY
 	A_DIVIDE
