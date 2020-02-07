@@ -52,7 +52,7 @@ func assignStatement() {
 		os.Exit(7)
 	}
 	left = makeLeaf(A_ASSIGNVAL, -1, id)
-	matchToken(T_EQ, "=")
+	matchToken(T_ASSIGN, "=")
 	right = binExpr(0)
 	tree = makeAstNode(A_ASSIGN, left, right, 0, -1)
 	fmt.Fprint(OutputFile, interpretAST(tree))

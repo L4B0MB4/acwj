@@ -139,6 +139,22 @@ func getKeyword(ident string) int {
 	return 0
 }
 
+func scanAdditionalChar(compare rune, tokenEq, tokenNotEq int) {
+	c, err := next()
+	if err != nil {
+		log.Fatal(err)
+	}
+	if c == compare {
+		T.token = tokenEq
+	} else if tokenNotEq >= 0 {
+		putback(c)
+		T.token = tokenNotEq
+	} else {
+		log.Fatalf("Unrecognized character on line %d column %d", Line, Column)
+		os.Exit(8)
+	}
+}
+
 func scan(t *Token) bool {
 	c, err := skip()
 	if err != nil {
@@ -162,7 +178,16 @@ func scan(t *Token) bool {
 		t.token = T_SLASH
 		break
 	case '=':
-		t.token = T_EQ
+		scanAdditionalChar('=', T_EQ, T_ASSIGN)
+		break
+	case '>':
+		scanAdditionalChar('=', T_GT, T_GE)
+		break
+	case '<':
+		scanAdditionalChar('=', T_LT, T_LE)
+		break
+	case '!':
+		scanAdditionalChar('=', T_NEQ, -1)
 		break
 	default:
 		if unicode.IsDigit(c) {
