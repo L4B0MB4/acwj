@@ -79,3 +79,27 @@ func genIdent(n *AstNode) string {
 func genAssign(left, right string) string {
 	return fmt.Sprintf("%s = %s \n", left, right)
 }
+
+func genComparison(left, compare, right string) string {
+	return fmt.Sprintf("(%s %s %s) ", left, compare, right)
+}
+
+func genEq(left, right string) string {
+	return genComparison(left, "==", right)
+}
+
+func genNeq(left, right string) string {
+	return genComparison(left, "!=", right)
+}
+func genGt(left, right string) string {
+	return genComparison(left, ">", right)
+}
+func genGe(left, right string) string {
+	return genComparison(left, ">=", right)
+}
+func genLt(left, right string) string {
+	return genComparison(left, "<", right)
+}
+func genLe(left, right string) string {
+	return genComparison(left, "<=", right)
+}

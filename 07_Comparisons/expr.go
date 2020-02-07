@@ -14,17 +14,11 @@ func opPrecedence(tokenType int) int {
 	return prec
 }
 
+// AST_OP and Token have to be at the smae plae
 func getAstType(tok int) int {
-	switch tok {
-	case T_PLUS:
-		return (A_ADD)
-	case T_MINUS:
-		return (A_SUBTRACT)
-	case T_STAR:
-		return (A_MULTIPLY)
-	case T_SLASH:
-		return (A_DIVIDE)
-	default:
+	if tok > T_EOF && tok < T_INTLIT {
+		return tok
+	} else {
 		log.Fatalf("unknown token in getAstType() on line %d column %d \n", Line, Column)
 		os.Exit(3)
 	}
