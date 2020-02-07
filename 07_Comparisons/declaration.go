@@ -8,8 +8,8 @@ func varDeclerationStatement() {
 	id := addGlobalSymbol(LastScannedIdentifier)
 	genGlobalSymbol()
 
-	if T.token == T_EQ {
-		matchToken(T_EQ, "=")
+	if T.token == T_ASSIGN {
+		matchToken(T_ASSIGN, "=")
 		var left, right, tree *AstNode
 		left = makeLeaf(A_ASSIGNVAL, -1, id)
 		right = binExpr(0)
