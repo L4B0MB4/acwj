@@ -39,9 +39,15 @@ const (
 	T_INTLIT
 	T_PRINT
 	T_ASSIGN
+	T_LBRACE
+	T_RBRACE
+	T_LPAREN
+	T_RPAREN
 	//keywords
 	T_VAR
 	T_IDENT
+	T_IF
+	T_ELSE
 )
 
 //Ast ops

@@ -135,6 +135,16 @@ func getKeyword(ident string) int {
 			return T_VAR
 		}
 		break
+	case 'i':
+		if ident == "if" {
+			return T_IF
+		}
+		break
+	case 'e':
+		if ident == "else" {
+			return T_ELSE
+		}
+		break
 	}
 	return 0
 }
