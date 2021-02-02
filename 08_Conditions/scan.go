@@ -78,14 +78,6 @@ func matchToken(t int, expected string) {
 	}
 }
 
-func matchIdent() {
-	matchToken(T_IDENT, "identifier")
-}
-
-func matchNewLine() {
-	matchToken(T_NEWLINE, "\\n")
-}
-
 func scanIdent(c rune) string {
 	var identBuilder strings.Builder
 	var err error
@@ -131,7 +123,7 @@ func getKeyword(ident string) int {
 		}
 		break
 	case 'v':
-		if ident == "v" {
+		if ident == "var" {
 			return T_VAR
 		}
 		break
@@ -186,6 +178,18 @@ func scan(t *Token) bool {
 		break
 	case '/':
 		t.token = T_SLASH
+		break
+	case '{':
+		t.token = T_LBRACE
+		break
+	case '}':
+		t.token = T_RBRACE
+		break
+	case '(':
+		t.token = T_LPAREN
+		break
+	case ')':
+		t.token = T_RPAREN
 		break
 	case '=':
 		scanAdditionalChar('=', T_EQ, T_ASSIGN)

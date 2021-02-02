@@ -67,4 +67,7 @@ const (
 	A_ASSIGNVAL
 	A_ASSIGN
 	A_IDENT
+	A_PRINT
+	A_GLUETO
+	A_IF
 )

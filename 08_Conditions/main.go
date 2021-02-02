@@ -58,9 +58,10 @@ func main() {
 	initVariables()
 	openInputFile(os.Args[1])
 	openOutputFile("./bin/tmp.go")
-	genMainFuncStart()
 	scan(&T)
-	parseStatements()
+	genMainFuncStart()
+	ast := compundStatement()
+	interpretAST(ast)
 	genMainFuncEnd()
 	compileFile(os.Args[2], "./bin/tmp.go")
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 )
 
@@ -49,8 +50,28 @@ func interpretAST(n *AstNode) string {
 		return genAssignVal(n)
 	case A_ASSIGN:
 		return genAssign(leftval, rightval)
+	case A_PRINT:
+		return genPrint(leftval)
+	case A_IF:
+		return genIf(n)
+	case A_GLUETO:
+		writeOutput(leftval)
+		writeOutput(rightval)
+		writeOutput("\n")
+		return ""
 	default:
 		log.Fatalf("Unknown AST operator %d\n", n.op)
 		panic("Unknown AST operator")
 	}
+}
+
+func genIf(node *AstNode) string {
+
+	ifhead := fmt.Sprintf("if %v {", interpretAST(node.left))
+	trueBody := fmt.Sprintf(" %v }", interpretAST(node.mid))
+	falseBody := ""
+	if node.right != nil {
+		falseBody = fmt.Sprintf("else {\n %v }", interpretAST(node.right))
+	}
+	return ifhead + trueBody + falseBody
 }

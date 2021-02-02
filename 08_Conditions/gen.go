@@ -26,12 +26,17 @@ func genMainFuncStart() {
 	fmt.Fprintf(OutputFile, "package main \n\n import \"fmt\" \n\nfunc main(){\n")
 }
 
-func genPrint(value string) {
-	fmt.Fprintf(OutputFile, "fmt.Printf(\"%%v\\n\",%s)\n", value)
+func genPrint(value string) string {
+	return fmt.Sprintf("fmt.Printf(\"%%v\\n\",%s)\n", value)
 }
 
 func genMainFuncEnd() {
 	fmt.Fprintf(OutputFile, "}")
+}
+
+func writeOutput(value string) {
+	fmt.Fprintf(OutputFile, "%s", value)
+	OutputFile.Flush()
 }
 
 func getLastGenVariable() string {

@@ -4,6 +4,7 @@ import "fmt"
 
 type AstNode struct {
 	left  *AstNode
+	mid   *AstNode
 	right *AstNode
 	op    int
 	v     AstNodeValue
@@ -14,13 +15,14 @@ type AstNodeValue struct {
 	id     int
 }
 
-func makeAstNode(op int, left *AstNode, right *AstNode, intval, id int) *AstNode {
+func makeAstNode(op int, left, mid, right *AstNode, intval, id int) *AstNode {
 	n := AstNode{
 		v: AstNodeValue{
 			intval: intval,
 			id:     id,
 		},
 		left:  left,
+		mid:   mid,
 		right: right,
 		op:    op,
 	}
@@ -28,11 +30,11 @@ func makeAstNode(op int, left *AstNode, right *AstNode, intval, id int) *AstNode
 }
 
 func makeLeaf(op int, intval, id int) *AstNode {
-	return makeAstNode(op, nil, nil, intval, id)
+	return makeAstNode(op, nil, nil, nil, intval, id)
 }
 
-func mkastunary(op int, left *AstNode, intval, id int) *AstNode {
-	return makeAstNode(op, left, nil, intval, id)
+func makeAstUnary(op int, left *AstNode, intval, id int) *AstNode {
+	return makeAstNode(op, left, nil, nil, intval, id)
 }
 
 func printAstDepth(n *AstNode) {

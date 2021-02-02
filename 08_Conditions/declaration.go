@@ -13,7 +13,7 @@ func varDeclerationStatement() {
 		var left, right, tree *AstNode
 		left = makeLeaf(A_ASSIGNVAL, -1, id)
 		right = binExpr(0)
-		tree = makeAstNode(A_ASSIGN, left, right, 0, -1)
+		tree = makeAstNode(A_ASSIGN, left, nil, right, 0, -1)
 		fmt.Fprint(OutputFile, interpretAST(tree))
 	}
 }

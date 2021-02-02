@@ -56,7 +56,7 @@ func binExpr(tokenPrecedence int) *AstNode {
 	left = primary()
 	tokenType = T.token
 
-	if tokenType == T_NEWLINE || tokenType == T_EOF {
+	if tokenType == T_NEWLINE || tokenType == T_EOF || tokenType == T_RPAREN {
 		return left
 	}
 	// While the precedence of this token is
@@ -70,12 +70,12 @@ func binExpr(tokenPrecedence int) *AstNode {
 
 		// Join that sub-tree with ours. Convert the token
 		// into an AST operation at the same time.
-		left = makeAstNode(getAstType(tokenType), left, right, 0, -1)
+		left = makeAstNode(getAstType(tokenType), left, nil, right, 0, -1)
 
 		// Update the details of the current token.
 		// If no tokens left, return just the left node
 		tokenType = T.token
-		if tokenType == T_NEWLINE || tokenType == T_EOF {
+		if tokenType == T_NEWLINE || tokenType == T_EOF || tokenType == T_RPAREN {
 			return left
 		}
 	}
