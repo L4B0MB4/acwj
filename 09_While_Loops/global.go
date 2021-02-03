@@ -48,6 +48,7 @@ const (
 	T_IDENT
 	T_IF
 	T_ELSE
+	T_WHILE
 )
 
 //Ast ops
@@ -70,4 +71,5 @@ const (
 	A_PRINT
 	A_GLUETO
 	A_IF
+	A_WHILE
 )

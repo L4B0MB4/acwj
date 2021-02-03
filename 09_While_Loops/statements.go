@@ -35,6 +35,9 @@ func compundStatement() *AstNode {
 		case T_IF:
 			tree = ifStatement()
 			break
+		case T_WHILE:
+			tree = whileStatement()
+			break
 		case T_RBRACE:
 			// When we hit a right curly bracket,
 			// skip past it and return the AST
@@ -55,6 +58,20 @@ func compundStatement() *AstNode {
 		}
 	}
 	return nil
+}
+
+func whileStatement() *AstNode {
+	var conditionAst, bodyAst *AstNode
+	matchToken(T_WHILE, "while")
+	matchLParen()
+	conditionAst = binExpr(0)
+
+	if conditionAst.op < A_EQ || conditionAst.op > A_GE {
+		log.Fatalf("Condition is not returning a boolean on Line %d", Line)
+	}
+	matchRParen()
+	bodyAst = compundStatement()
+	return makeAstNode(A_WHILE, conditionAst, bodyAst, nil, -1, -1)
 }
 
 func ifStatement() *AstNode {

@@ -54,24 +54,30 @@ func interpretAST(n *AstNode) string {
 		return genPrint(leftval)
 	case A_IF:
 		return genIf(n)
+	case A_WHILE:
+		return genWhile(n)
 	case A_GLUETO:
-		writeOutput(leftval)
-		writeOutput(rightval)
-		writeOutput("\n")
-		return ""
+		return leftval + rightval + "\n"
 	default:
 		log.Fatalf("Unknown AST operator %d\n", n.op)
 		panic("Unknown AST operator")
 	}
 }
 
+func genWhile(node *AstNode) string {
+
+	whilehead := fmt.Sprintf("for %v {\n", interpretAST(node.left))
+	trueBody := fmt.Sprintf(" %v }\n", interpretAST(node.mid))
+	return whilehead + trueBody
+}
+
 func genIf(node *AstNode) string {
 
-	ifhead := fmt.Sprintf("if %v {", interpretAST(node.left))
-	trueBody := fmt.Sprintf(" %v }", interpretAST(node.mid))
+	ifhead := fmt.Sprintf("if %v {\n", interpretAST(node.left))
+	trueBody := fmt.Sprintf(" %v }\n", interpretAST(node.mid))
 	falseBody := ""
 	if node.right != nil {
-		falseBody = fmt.Sprintf("else {\n %v }", interpretAST(node.right))
+		falseBody = fmt.Sprintf("else {\n %v }\n", interpretAST(node.right))
 	}
 	return ifhead + trueBody + falseBody
 }

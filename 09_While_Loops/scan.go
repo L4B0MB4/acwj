@@ -132,6 +132,11 @@ func getKeyword(ident string) int {
 			return T_IF
 		}
 		break
+	case 'w':
+		if ident == "while" {
+			return T_WHILE
+		}
+		break
 	case 'e':
 		if ident == "else" {
 			return T_ELSE

@@ -61,7 +61,7 @@ func main() {
 	scan(&T)
 	genMainFuncStart()
 	ast := compundStatement()
-	interpretAST(ast)
+	writeOutput(interpretAST(ast))
 	genMainFuncEnd()
 	compileFile(os.Args[2], "./bin/tmp.go")
 }
