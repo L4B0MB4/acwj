@@ -15,6 +15,10 @@ func matchLParen() {
 	matchToken(T_LPAREN, "(")
 }
 
+func matchSemi() {
+	matchToken(T_SEMI, ";")
+}
+
 // Match a right parenthesis and fetch the next token
 func matchRParen() {
 	matchToken(T_RPAREN, ")")

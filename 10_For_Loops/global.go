@@ -49,6 +49,8 @@ const (
 	T_IF
 	T_ELSE
 	T_WHILE
+	T_FOR
+	T_SEMI
 )
 
 //Ast ops
@@ -72,4 +74,5 @@ const (
 	A_GLUETO
 	A_IF
 	A_WHILE
+	A_FOR
 )

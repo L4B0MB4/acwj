@@ -56,7 +56,7 @@ func binExpr(tokenPrecedence int) *AstNode {
 	left = primary()
 	tokenType = T.token
 
-	if tokenType == T_NEWLINE || tokenType == T_EOF || tokenType == T_RPAREN {
+	if tokenType == T_NEWLINE || tokenType == T_EOF || tokenType == T_RPAREN || tokenType == T_SEMI {
 		return left
 	}
 	// While the precedence of this token is
@@ -75,7 +75,7 @@ func binExpr(tokenPrecedence int) *AstNode {
 		// Update the details of the current token.
 		// If no tokens left, return just the left node
 		tokenType = T.token
-		if tokenType == T_NEWLINE || tokenType == T_EOF || tokenType == T_RPAREN {
+		if tokenType == T_NEWLINE || tokenType == T_EOF || tokenType == T_RPAREN || tokenType == T_SEMI {
 			return left
 		}
 	}

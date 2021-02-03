@@ -137,6 +137,11 @@ func getKeyword(ident string) int {
 			return T_WHILE
 		}
 		break
+	case 'f':
+		if ident == "for" {
+			return T_FOR
+		}
+		break
 	case 'e':
 		if ident == "else" {
 			return T_ELSE
@@ -195,6 +200,9 @@ func scan(t *Token) bool {
 		break
 	case ')':
 		t.token = T_RPAREN
+		break
+	case ';':
+		t.token = T_SEMI
 		break
 	case '=':
 		scanAdditionalChar('=', T_EQ, T_ASSIGN)

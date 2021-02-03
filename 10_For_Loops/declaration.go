@@ -1,8 +1,6 @@
 package main
 
-import "fmt"
-
-func varDeclerationStatement() {
+func varDeclerationStatement() *AstNode {
 	matchToken(T_VAR, "v")
 	matchIdent()
 	id := addGlobalSymbol(LastScannedIdentifier)
@@ -14,6 +12,7 @@ func varDeclerationStatement() {
 		left = makeLeaf(A_ASSIGNVAL, -1, id)
 		right = binExpr(0)
 		tree = makeAstNode(A_ASSIGN, left, nil, right, 0, -1)
-		fmt.Fprint(OutputFile, interpretAST(tree))
+		return tree
 	}
+	return nil
 }
