@@ -69,8 +69,8 @@ func genNumber(node *AstNode) string {
 	return fmt.Sprintf("%s", strconv.Itoa(node.v.intval))
 }
 
-func genGlobalSymbol() {
-	fmt.Fprintf(OutputFile, "var %s int\n", GlobalSymbols[findLastGlobalSymbol()].name)
+func genGlobalSymbol(t string) {
+	fmt.Fprintf(OutputFile, "var %s %s\n", GlobalSymbols[findLastGlobalSymbol()].name, t)
 }
 
 func genAssignVal(n *AstNode) string {

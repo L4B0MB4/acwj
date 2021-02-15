@@ -141,6 +141,9 @@ func getKeyword(ident string) int {
 		if ident == "for" {
 			return T_FOR
 		}
+		if ident == "fn" {
+			return T_FUNC
+		}
 		break
 	case 'e':
 		if ident == "else" {

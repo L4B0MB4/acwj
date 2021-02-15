@@ -37,6 +37,10 @@ func compileFile(path, tmpPath string) {
 	log.Printf(string(output))
 	if err != nil {
 		log.Printf("Compiling finished with error: %v", err)
+		errCasted, ok := err.(*exec.ExitError)
+		if ok {
+			log.Printf("%v", string(errCasted.Stderr))
+		}
 	}
 	log.Printf("Successfully compiled")
 	cmd = exec.Command(filepath.Join(filepath.Base(path), "build.exe"))

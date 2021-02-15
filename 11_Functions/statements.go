@@ -14,6 +14,9 @@ func singleStatement() *AstNode {
 	case T_VAR:
 		tree = varDeclerationStatement()
 		break
+	case T_FUNC:
+		tree = functionDeclaration()
+		break
 	case T_IDENT:
 		tree = assignStatement()
 		break

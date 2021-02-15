@@ -56,12 +56,22 @@ func interpretAST(n *AstNode) string {
 		return genIf(n)
 	case A_WHILE:
 		return genWhile(n)
+	case A_FUNC:
+		return genFunction(n)
 	case A_GLUETO:
 		return leftval + rightval + "\n"
+
 	default:
 		log.Fatalf("Unknown AST operator %d\n", n.op)
 		panic("Unknown AST operator")
 	}
+}
+
+func genFunction(node *AstNode) string {
+
+	fnHead := fmt.Sprintf("%v =func(){\n", GlobalSymbols[node.v.id].name)
+	fnBody := fmt.Sprintf(" %v }\n", interpretAST(node.left))
+	return fnHead + fnBody
 }
 
 func genWhile(node *AstNode) string {

@@ -18,4 +18,12 @@ while ( j <3){
 for(var x = 0; x<10;x=x+1){
     print 222
 }
+
+fn function (){
+ var functionVar = 123
+ print functionVar
 }
+
+
+}
+

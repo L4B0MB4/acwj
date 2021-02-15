@@ -51,6 +51,7 @@ const (
 	T_WHILE
 	T_FOR
 	T_SEMI
+	T_FUNC
 )
 
 //Ast ops
@@ -75,4 +76,5 @@ const (
 	A_IF
 	A_WHILE
 	A_FOR
+	A_FUNC
 )
