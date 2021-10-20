@@ -5,7 +5,8 @@ import "errors"
 var GlobalSymbols = []SymTable{}
 
 type SymTable struct {
-	name string
+	name    string
+	symType VariableType
 }
 
 func findGlobalSymbol(name string) (int, error) {
@@ -24,7 +25,7 @@ func getNextGlobalPosition() int {
 func findLastGlobalSymbol() int {
 	return len(GlobalSymbols) - 1
 }
-func addGlobalSymbol(name string) int {
-	GlobalSymbols = append(GlobalSymbols, SymTable{name: name})
+func addGlobalSymbol(name string, symType VariableType) int {
+	GlobalSymbols = append(GlobalSymbols, SymTable{name: name, symType: symType})
 	return len(GlobalSymbols) - 1
 }

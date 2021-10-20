@@ -77,4 +77,17 @@ const (
 	A_WHILE
 	A_FOR
 	A_FUNC
+	A_FUNC_CALL
+)
+
+// Variable Types
+type VariableType int
+
+const (
+	TYPE_INT = iota
+	TYPE_INT64
+	TYPE_FLOAT
+	TYPE_CHAR
+	TYPE_STRING
+	TYPE_FUNC
 )

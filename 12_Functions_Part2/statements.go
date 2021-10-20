@@ -18,7 +18,7 @@ func singleStatement() *AstNode {
 		tree = functionDeclaration()
 		break
 	case T_IDENT:
-		tree = assignStatement()
+		tree = identifierStatement()
 		break
 	case T_IF:
 		tree = ifStatement()
@@ -142,19 +142,40 @@ func printStatement() *AstNode {
 	return makeAstUnary(A_PRINT, tree, -1, -1)
 }
 
-func assignStatement() *AstNode {
+func assignStatement(symbolId int) *AstNode {
 	var left, right, tree *AstNode
-	matchIdent()
-	id, err := findGlobalSymbol(LastScannedIdentifier)
-	if err != nil {
-		log.Fatalf("Couldn't find global Symbol %s", LastScannedIdentifier)
-		os.Exit(7)
-	}
-	left = makeLeaf(A_ASSIGNVAL, -1, id)
+	left = makeLeaf(A_ASSIGNVAL, -1, symbolId)
 	matchToken(T_ASSIGN, "=")
 	right = binExpr(0)
 	tree = makeAstNode(A_ASSIGN, left, nil, right, 0, -1)
 
 	return tree
 
+}
+
+func identifierStatement() *AstNode {
+	matchIdent()
+	id, err := findGlobalSymbol(LastScannedIdentifier)
+	if err != nil {
+		log.Fatalf("Couldn't find global Symbol %s", LastScannedIdentifier)
+		os.Exit(7)
+	}
+	switch GlobalSymbols[id].symType {
+	case TYPE_FUNC:
+		return functionCallStatement(id)
+	case TYPE_INT:
+		return assignStatement(id)
+	default:
+		log.Fatalf("Unkown type for identifier %v", GlobalSymbols[id].name)
+		os.Exit(8)
+	}
+	return nil
+}
+
+func functionCallStatement(symbolId int) *AstNode {
+	matchLParen()
+	matchRParen()
+	var tree *AstNode
+	makeLeaf(A_FUNC_CALL, -1, symbolId)
+	return makeAstUnary(A_FUNC_CALL, tree, -1, symbolId)
 }

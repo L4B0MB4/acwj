@@ -3,7 +3,7 @@ package main
 func varDeclerationStatement() *AstNode {
 	matchToken(T_VAR, "v")
 	matchIdent()
-	id := addGlobalSymbol(LastScannedIdentifier)
+	id := addGlobalSymbol(LastScannedIdentifier, TYPE_INT)
 	genGlobalSymbol("int")
 
 	if T.token == T_ASSIGN {
@@ -22,7 +22,7 @@ func varDeclerationStatement() *AstNode {
 func functionDeclaration() *AstNode {
 	matchToken(T_FUNC, "f")
 	matchIdent()
-	id := addGlobalSymbol(LastScannedIdentifier)
+	id := addGlobalSymbol(LastScannedIdentifier, TYPE_FUNC)
 	genGlobalSymbol("func()")
 	matchLParen()
 	matchRParen()

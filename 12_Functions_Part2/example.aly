@@ -24,6 +24,8 @@ fn function (){
  print functionVar
 }
 
+function()
+
 
 }
 

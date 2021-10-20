@@ -58,6 +58,8 @@ func interpretAST(n *AstNode) string {
 		return genWhile(n)
 	case A_FUNC:
 		return genFunction(n)
+	case A_FUNC_CALL:
+		return genFuncCall(n)
 	case A_GLUETO:
 		return leftval + rightval + "\n"
 
@@ -72,6 +74,11 @@ func genFunction(node *AstNode) string {
 	fnHead := fmt.Sprintf("%v =func(){\n", GlobalSymbols[node.v.id].name)
 	fnBody := fmt.Sprintf(" %v }\n", interpretAST(node.left))
 	return fnHead + fnBody
+}
+
+func genFuncCall(node *AstNode) string {
+	fnCall := fmt.Sprintf("%v()", GlobalSymbols[node.v.id].name)
+	return fnCall
 }
 
 func genWhile(node *AstNode) string {
