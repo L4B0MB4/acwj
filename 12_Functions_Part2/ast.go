@@ -38,18 +38,16 @@ func makeAstUnary(op int, left *AstNode, intval, id int) *AstNode {
 }
 
 func printAstDepth(n *AstNode) {
-	fmt.Printf(" Height %d \n", getDepthStupid(n))
+	fmt.Printf(" Height %d \n", getAstDepthStupid(n))
 
 }
-func getDepthStupid(n *AstNode) int {
+func getAstDepthStupid(n *AstNode) int {
 	if n == nil {
 		return 0
 	}
-	fmt.Printf("%v ", n)
-
 	depth := 1
-	depthLeft := getDepthStupid(n.left)
-	depthRight := getDepthStupid(n.right)
+	depthLeft := getAstDepthStupid(n.left)
+	depthRight := getAstDepthStupid(n.right)
 
 	if depthLeft > depthRight {
 		depth += depthLeft

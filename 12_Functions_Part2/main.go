@@ -32,9 +32,9 @@ func cleanup() {
 func compileFile(path, tmpPath string) {
 	OutputFile.Flush()
 	cmd := exec.Command("go", "build", "-o", path, tmpPath)
-	log.Printf("Compiling...")
+	log.Print("Compiling...")
 	output, err := cmd.Output()
-	log.Printf(string(output))
+	log.Print(string(output))
 	if err != nil {
 		log.Printf("Compiling finished with error: %v", err)
 		errCasted, ok := err.(*exec.ExitError)
@@ -65,12 +65,8 @@ func main() {
 	scan(&T)
 	genMainFuncStart()
 	ast := compundStatement()
+	printAstDepth(ast)
 	writeOutput(interpretAST(ast))
 	genMainFuncEnd()
 	compileFile(os.Args[2], "./bin/tmp.go")
-}
-
-func meinTest(x, y interface{}) {
-	print(x.(map[string]interface{})["x"].(string))
-	print(x.(map[string]interface{})["x"])
 }

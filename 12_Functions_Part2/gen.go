@@ -66,7 +66,7 @@ func genDiv(left, right string) string {
 }
 
 func genNumber(node *AstNode) string {
-	return fmt.Sprintf("%s", strconv.Itoa(node.v.intval))
+	return fmt.Sprint(strconv.Itoa(node.v.intval))
 }
 
 func genGlobalSymbol(t string) {
@@ -74,11 +74,11 @@ func genGlobalSymbol(t string) {
 }
 
 func genAssignVal(n *AstNode) string {
-	return fmt.Sprintf("%s", GlobalSymbols[n.v.id].name)
+	return fmt.Sprint(GlobalSymbols[n.v.id].name)
 }
 
 func genIdent(n *AstNode) string {
-	return fmt.Sprintf("%s", GlobalSymbols[n.v.id].name)
+	return fmt.Sprint(GlobalSymbols[n.v.id].name)
 }
 
 func genAssign(left, right string) string {

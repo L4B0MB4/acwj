@@ -10,25 +10,25 @@ func singleStatement() *AstNode {
 	switch T.token {
 	case T_PRINT:
 		tree = printStatement()
-		break
+
 	case T_VAR:
 		tree = varDeclerationStatement()
-		break
+
 	case T_FUNC:
 		tree = functionDeclaration()
-		break
+
 	case T_IDENT:
 		tree = identifierStatement()
-		break
+
 	case T_IF:
 		tree = ifStatement()
-		break
+
 	case T_WHILE:
 		tree = whileStatement()
-		break
+
 	case T_FOR:
 		tree = forStatement()
-		break
+
 	default:
 		log.Fatalf("Unknown token Line %d Column %d", Line, Column)
 	}
@@ -45,7 +45,7 @@ func compundStatement() *AstNode {
 	}
 	matchLBrace()
 
-	for 1 == 1 {
+	for {
 		// match as many newlines as you want before new statement
 		for isCurrentTokenNewLine() {
 			matchNewLine()
@@ -70,7 +70,6 @@ func compundStatement() *AstNode {
 		}
 
 	}
-	return nil
 }
 
 func forStatement() *AstNode {

@@ -15,11 +15,7 @@ func findGlobalSymbol(name string) (int, error) {
 			return i, nil
 		}
 	}
-	return -1, errors.New("Could not find global symbol")
-}
-
-func getNextGlobalPosition() int {
-	return len(GlobalSymbols)
+	return -1, errors.New("could not find global symbol")
 }
 
 func findLastGlobalSymbol() int {

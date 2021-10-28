@@ -64,10 +64,7 @@ func skip() (rune, error) {
 }
 
 func isCurrentTokenNewLine() bool {
-	if T.token == T_NEWLINE {
-		return true
-	}
-	return false
+	return T.token == T_NEWLINE
 }
 
 func matchToken(t int, expected string) {
@@ -121,22 +118,22 @@ func getKeyword(ident string) int {
 		if ident == "print" {
 			return T_PRINT
 		}
-		break
+
 	case 'v':
 		if ident == "var" {
 			return T_VAR
 		}
-		break
+
 	case 'i':
 		if ident == "if" {
 			return T_IF
 		}
-		break
+
 	case 'w':
 		if ident == "while" {
 			return T_WHILE
 		}
-		break
+
 	case 'f':
 		if ident == "for" {
 			return T_FOR
@@ -144,12 +141,12 @@ func getKeyword(ident string) int {
 		if ident == "fn" {
 			return T_FUNC
 		}
-		break
+
 	case 'e':
 		if ident == "else" {
 			return T_ELSE
 		}
-		break
+
 	}
 	return 0
 }
@@ -179,51 +176,51 @@ func scan(t *Token) bool {
 	switch c {
 	case '\n':
 		t.token = T_NEWLINE
-		break
+
 	case '+':
 		t.token = T_PLUS
-		break
+
 	case '-':
 		t.token = T_MINUS
-		break
+
 	case '*':
 		t.token = T_STAR
-		break
+
 	case '/':
 		t.token = T_SLASH
-		break
+
 	case '{':
 		t.token = T_LBRACE
-		break
+
 	case '}':
 		t.token = T_RBRACE
-		break
+
 	case '(':
 		t.token = T_LPAREN
-		break
+
 	case ')':
 		t.token = T_RPAREN
-		break
+
 	case ';':
 		t.token = T_SEMI
-		break
+
 	case '=':
 		scanAdditionalChar('=', T_EQ, T_ASSIGN)
-		break
+
 	case '>':
 		scanAdditionalChar('=', T_GT, T_GE)
-		break
+
 	case '<':
 		scanAdditionalChar('=', T_LT, T_LE)
-		break
+
 	case '!':
 		scanAdditionalChar('=', T_NEQ, -1)
-		break
+
 	default:
 		if unicode.IsDigit(c) {
 			t.intvalue = scanint(c)
 			t.token = T_INTLIT
-		} else if unicode.IsLetter(c) || '_' == c {
+		} else if unicode.IsLetter(c) || c == '_' {
 			// Read in a keyword or identifier
 			identifier := scanIdent(c)
 			tokentype := getKeyword(identifier)
@@ -236,9 +233,6 @@ func scan(t *Token) bool {
 				t.token = T_IDENT
 				break
 			}
-			// Not a recognised keyword, so an error for now
-			fmt.Printf("Unrecognised symbol %s on line %d column %d \n", identifier, Line, Column)
-			os.Exit(1)
 		} else {
 			fmt.Printf("Unrecognised character %q on Line %d Col %d \n", c, Line, Column)
 			os.Exit(2)
