@@ -21,69 +21,57 @@ node.{id|Root}{
         {id}: basictype|node|basictype[]|node[]
     }
 
-    connection: node
-
-    persist: nodefunc
-
-    load: nodefunc
-
-    changeState: nodefunc
-
-    _parent:node
-
-    _children:node[]
-
-    {//Rootonly
-
-        _onTrigger:helperfunc
+    input:(nodeparam)=>{
+        return(
+            <NodeId>
+                <NodeId1/>
+                <nodeparam>
+            </NodeId>
+        )
     }
 }
-
-```
-
-### NodeFunc:
-
-```
-    nodeid.{load|persist|changeState} {
-
-        //usual code and helper function calls
-
-    }
-
-```
-
-### HelperFunc:
-
-```
-    common.{id}(params) {
-
-        //usual code and helper function calls
-
-    }
 
 ```
 
 ## Example:
 
 ```
+    node.Calculator{
+        state ={
+            value
+        }
+
+        input:(val1, func, val2)=>{
+            return
+            <Output>
+                <func>
+                    <val1>
+                    <val2>
+                </func>
+            </Output>
+        }
+    }
+
+    node.Add{
+        input:(val1, val2)=>{
+            return val1.state.value + val2.state.value
+        }
+    }
+
+
     node.Root{
-
-        state={
-            counter:0
+        input:()=>{
+            return
+            <Calculator>
+                <CalculatorValue>
+                    3
+                </CalculatorValue>
+                <Add/>
+                <CalculatorValue>
+                    4
+                </CalculatorValue>
+            </Calculator>
         }
-
-        load: ()=>{
-            counter = 1
-        }
-
-        changeState : ()=>{
-            counter+=1
-        }
-
-        onTrigger: (params)=>{
-
-        }
-
     }
 
 ```
