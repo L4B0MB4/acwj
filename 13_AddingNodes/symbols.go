@@ -1,27 +1,69 @@
 package main
 
-import "errors"
-
-var GlobalSymbols = []SymTable{}
+import (
+	"errors"
+	"log"
+	"os"
+)
 
 type SymTable struct {
+	entries []*SymTableEntry
+	parent  *SymTable
+}
+
+type SymTableEntry struct {
 	name    string
 	symType VariableType
 }
 
-func findGlobalSymbol(name string) (int, error) {
-	for i := 0; i < len(GlobalSymbols); i++ {
-		if GlobalSymbols[i].name == name {
-			return i, nil
-		}
-	}
-	return -1, errors.New("could not find global symbol")
+var GlobalSymbols = SymTable{
+	entries: []*SymTableEntry{},
+	parent:  nil,
 }
 
-func findLastGlobalSymbol() int {
-	return len(GlobalSymbols) - 1
+var currentScope *SymTable
+
+func newScope() {
+	currentScope = &SymTable{
+		entries: []*SymTableEntry{},
+		parent:  currentScope,
+	}
 }
-func addGlobalSymbol(name string, symType VariableType) int {
-	GlobalSymbols = append(GlobalSymbols, SymTable{name: name, symType: symType})
-	return len(GlobalSymbols) - 1
+func popScope() {
+	currentScope = currentScope.parent
+}
+
+func addSymbolToCurrentScope(name string, symType VariableType) {
+	currentScope.entries = append(currentScope.entries, createSymTableEntry(name, symType))
+}
+
+func findSymbol(name string, scope *SymTable) (*SymTableEntry, error) {
+
+	for i := 0; i < len(scope.entries); i++ {
+		if scope.entries[i].name == name {
+			return scope.entries[i], nil
+		}
+	}
+	if scope.parent != nil {
+		return findSymbol(name, scope.parent)
+	}
+	return nil, errors.New("could not find symbol")
+}
+
+func getAllSymbolsFromScope(scope *SymTable) []*SymTableEntry {
+	return scope.entries
+}
+
+func createSymTableEntry(name string, symType VariableType) *SymTableEntry {
+	return &SymTableEntry{name: name, symType: symType}
+}
+
+func getSymbolFromAst(n *AstNode) *SymTableEntry {
+	id := n.v.id
+	symbol, err := findSymbol(id, n.symTable)
+	if err != nil {
+		log.Fatalf("Unknown symbol %s. %v", id, err)
+		os.Exit(12)
+	}
+	return symbol
 }

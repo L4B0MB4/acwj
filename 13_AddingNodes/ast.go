@@ -3,37 +3,39 @@ package main
 import "fmt"
 
 type AstNode struct {
-	left  *AstNode
-	mid   *AstNode
-	right *AstNode
-	op    int
-	v     AstNodeValue
+	left     *AstNode
+	mid      *AstNode
+	right    *AstNode
+	op       int
+	v        AstNodeValue
+	symTable *SymTable
 }
 
 type AstNodeValue struct {
 	intval int
-	id     int
+	id     string
 }
 
-func makeAstNode(op int, left, mid, right *AstNode, intval, id int) *AstNode {
+func makeAstNode(op int, left, mid, right *AstNode, intval int, id string) *AstNode {
 	n := AstNode{
 		v: AstNodeValue{
 			intval: intval,
 			id:     id,
 		},
-		left:  left,
-		mid:   mid,
-		right: right,
-		op:    op,
+		left:     left,
+		mid:      mid,
+		right:    right,
+		op:       op,
+		symTable: currentScope,
 	}
 	return &n
 }
 
-func makeLeaf(op int, intval, id int) *AstNode {
+func makeLeaf(op int, intval int, id string) *AstNode {
 	return makeAstNode(op, nil, nil, nil, intval, id)
 }
 
-func makeAstUnary(op int, left *AstNode, intval, id int) *AstNode {
+func makeAstUnary(op int, left *AstNode, intval int, id string) *AstNode {
 	return makeAstNode(op, left, nil, nil, intval, id)
 }
 

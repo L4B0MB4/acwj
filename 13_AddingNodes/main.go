@@ -66,6 +66,7 @@ func main() {
 	genMainFuncStart()
 	ast := compundStatement()
 	printAstDepth(ast)
+	writeOutput(genAllLocalVariables(ast))
 	writeOutput(interpretAST(ast))
 	genMainFuncEnd()
 	compileFile(os.Args[2], "./bin/tmp.go")

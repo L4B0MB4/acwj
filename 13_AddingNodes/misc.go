@@ -19,6 +19,10 @@ func matchSemi() {
 	matchToken(T_SEMI, ";")
 }
 
+func matchDot() {
+	matchToken(T_DOT, ".")
+}
+
 // Match a right parenthesis and fetch the next token
 func matchRParen() {
 	matchToken(T_RPAREN, ")")
@@ -30,4 +34,10 @@ func matchIdent() {
 
 func matchNewLine() {
 	matchToken(T_NEWLINE, "\\n")
+}
+
+func skipNewLine() {
+	for isCurrentTokenNewLine() {
+		matchNewLine()
+	}
 }

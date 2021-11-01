@@ -69,16 +69,33 @@ func genNumber(node *AstNode) string {
 	return fmt.Sprint(strconv.Itoa(node.v.intval))
 }
 
-func genGlobalSymbol(t string) {
-	fmt.Fprintf(OutputFile, "var %s %s\n", GlobalSymbols[findLastGlobalSymbol()].name, t)
+func genAllLocalVariables(node *AstNode) string {
+	str := ""
+	entries := getAllSymbolsFromScope(node.symTable)
+	for _, entry := range entries {
+		switch entry.symType {
+
+		case TYPE_INT:
+			str += genSymbol(entry.name, "int")
+		case TYPE_FUNC:
+			str += genSymbol(entry.name, "func()")
+		default:
+			log.Fatal("Unknown symbol type")
+		}
+	}
+	return str
+}
+
+func genSymbol(name, t string) string {
+	return fmt.Sprintf("var %s %s\n", name, t)
 }
 
 func genAssignVal(n *AstNode) string {
-	return fmt.Sprint(GlobalSymbols[n.v.id].name)
+	return fmt.Sprint(getSymbolFromAst(n).name)
 }
 
 func genIdent(n *AstNode) string {
-	return fmt.Sprint(GlobalSymbols[n.v.id].name)
+	return fmt.Sprint(getSymbolFromAst(n).name)
 }
 
 func genAssign(left, right string) string {

@@ -52,6 +52,9 @@ const (
 	T_FOR
 	T_SEMI
 	T_FUNC
+	T_DOT
+	T_NODE
+	T_STATE
 )
 
 //Ast ops
@@ -78,6 +81,7 @@ const (
 	A_FOR
 	A_FUNC
 	A_FUNC_CALL
+	A_NODE
 )
 
 // Variable Types
@@ -90,4 +94,5 @@ const (
 	TYPE_CHAR
 	TYPE_STRING
 	TYPE_FUNC
+	TYPE_NODE
 )

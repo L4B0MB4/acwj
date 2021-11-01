@@ -72,6 +72,7 @@ func matchToken(t int, expected string) {
 		scan(&T)
 	} else {
 		fmt.Printf("Expected %s on line %d column %d\n", expected, Line, Column)
+		os.Exit(11)
 	}
 }
 
@@ -146,7 +147,14 @@ func getKeyword(ident string) int {
 		if ident == "else" {
 			return T_ELSE
 		}
-
+	case 'n':
+		if ident == "node" {
+			return T_NODE
+		}
+	case 's':
+		if ident == "state" {
+			return T_STATE
+		}
 	}
 	return 0
 }
@@ -203,6 +211,9 @@ func scan(t *Token) bool {
 
 	case ';':
 		t.token = T_SEMI
+
+	case '.':
+		t.token = T_DOT
 
 	case '=':
 		scanAdditionalChar('=', T_EQ, T_ASSIGN)

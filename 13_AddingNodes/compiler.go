@@ -62,6 +62,8 @@ func interpretAST(n *AstNode) string {
 		return genFuncCall(n)
 	case A_GLUETO:
 		return leftval + rightval + "\n"
+	case A_NODE:
+		return genNodeDeclaration(n)
 
 	default:
 		log.Fatalf("Unknown AST operator %d\n", n.op)
@@ -69,15 +71,22 @@ func interpretAST(n *AstNode) string {
 	}
 }
 
-func genFunction(node *AstNode) string {
-
-	fnHead := fmt.Sprintf("%v =func(){\n", GlobalSymbols[node.v.id].name)
+func genNodeDeclaration(node *AstNode) string {
+	nodeName := getSymbolFromAst(node).name
+	fnHead := fmt.Sprintf("%v :=func(){\n", nodeName)
 	fnBody := fmt.Sprintf(" %v }\n", interpretAST(node.left))
 	return fnHead + fnBody
 }
 
+func genFunction(node *AstNode) string {
+
+	fnHead := fmt.Sprintf("%v =func(){\n", getSymbolFromAst(node).name)
+	fnBody := fmt.Sprintf(" %v \n %v }\n", genAllLocalVariables(node.left), interpretAST(node.left))
+	return fnHead + fnBody
+}
+
 func genFuncCall(node *AstNode) string {
-	fnCall := fmt.Sprintf("%v()", GlobalSymbols[node.v.id].name)
+	fnCall := fmt.Sprintf("%v()", getSymbolFromAst(node).name)
 	return fnCall
 }
 
